@@ -1,7 +1,10 @@
 [package]
 name = "rhubarb"
 version = "0.1.0"
+description = "A data visualization server"
 authors = ["Jamie Blondin <jblondin@gmail.com>"]
+license-file = "LICENSE"
+repository = "https://github.com/jblondin/rhubarb"
 
 [workspace]
 members = [
