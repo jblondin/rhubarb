@@ -1,0 +1,26 @@
+[package]
+name = "rhubarb"
+version = "0.1.0"
+authors = ["Jamie Blondin <jblondin@gmail.com>"]
+
+[workspace]
+members = [
+    "./",
+    "derive-graph-elem",
+    "rhubarb-graph",
+]
+
+[dependencies]
+gotham = "0.2"
+#gotham_derive = "0.2"
+hyper = "0.11"
+futures = "~0.1.11"
+mime = "0.3"
+handlebars = "0.28"
+serde = "^1.0.0"
+serde_json = "^1.0.0"
+serde_derive = "^1.0.0"
+rhubarb-graph = { version = "0.1", path = "rhubarb-graph" }
+#agnes = "0.1"
+agnes = { path = "../agnes" }
+unicase = "2.1"

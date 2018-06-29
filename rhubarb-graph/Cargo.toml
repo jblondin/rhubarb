@@ -1,0 +1,16 @@
+[package]
+name = "rhubarb-graph"
+version = "0.1.0"
+authors = ["Jamie Blondin <jblondin@gmail.com>"]
+
+[dependencies]
+#agnes = "0.1"
+agnes = { path = "../../agnes" }
+derive-graph-elem = { path = "../derive-graph-elem" }
+serde = "^1.0.0"
+serde_derive = "1.0"
+palette = "0.3"
+num-traits = "0.2"
+
+[dev-dependencies]
+serde_json = "1.0"

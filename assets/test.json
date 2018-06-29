@@ -1,0 +1,47 @@
+{
+  "data": [
+    {
+      "x": [
+        4,
+        54,
+        23,
+        21,
+        85,
+        32,
+        44,
+        89
+      ],
+      "y": [
+        5.03,
+        2.34,
+        0.42,
+        0.204,
+        0.32,
+        3.21,
+        5.66,
+        9.11
+      ],
+      "mode": "markers",
+      "type": "scatter"
+    }
+  ],
+  "layout": {
+    "title": "Sample Scatter Plot!",
+    "width": 600,
+    "height": 500,
+    "x_axis": {
+      "title": "Value 1",
+      "type": "log"
+    },
+    "y_axis": {
+      "title": "Value 2",
+      "type": "linear"
+    },
+    "margin": {
+      "l": 10,
+      "r": 10,
+      "t": 40,
+      "b": 40
+    }
+  }
+}

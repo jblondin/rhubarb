@@ -1,0 +1,1 @@
+../../../js/rhubarb-frontend/dist/bundle.js

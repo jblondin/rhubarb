@@ -1,0 +1,14 @@
+<html>
+  <head>
+    <title>{{title}}</title>
+    {{#each styles as |s|}}
+    <link rel="stylesheet" href="{{s.url}}" />
+    {{/each}}
+  </head>
+  <body>
+      <div id="root"></div>
+      {{#each scripts as |s|}}
+      <script src="{{s.url}}"></script>
+      {{/each}}
+  </body>
+</html>
