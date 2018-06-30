@@ -1,17 +1,15 @@
 use std::sync::Arc;
 use std::fmt;
 
-use serde::{Serialize, Serializer};
-use serde::ser::SerializeStruct;
-
 use event::{Event, EventHandler, HandleEvent};
 use error;
 use control::Control;
 
-#[derive(Clone)]
+#[derive(Clone, Serialize)]
 pub struct SliderControl<St> {
     values: Vec<String>,
     pub curr_value: usize,
+    #[serde(skip)]
     on_change: Option<Arc<EventHandler<SliderChange, St>>>
 }
 impl<St> fmt::Debug for SliderControl<St> {
@@ -60,15 +58,6 @@ impl<St> HandleEvent<St> for SliderControl<St> {
                 })
             }
         }
-    }
-}
-
-impl<St> Serialize for SliderControl<St> {
-    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error> where S: Serializer {
-        let mut state = serializer.serialize_struct("SliderControl", 2)?;
-        state.serialize_field("values", &self.values)?;
-        state.serialize_field("curr_value", &self.curr_value)?;
-        state.end()
     }
 }
 

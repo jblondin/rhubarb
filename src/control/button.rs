@@ -1,16 +1,14 @@
 use std::sync::Arc;
 use std::fmt;
 
-use serde::{Serialize, Serializer};
-use serde::ser::SerializeStruct;
-
 use control::Control;
 use event::{HandleEvent, Event, EventHandler};
 use error;
 
-#[derive(Clone)]
+#[derive(Clone, Serialize)]
 pub struct ButtonControl<St> {
     text: String,
+    #[serde(skip)]
     on_click: Option<Arc<EventHandler<ButtonClick, St>>>
 }
 impl<St> fmt::Debug for ButtonControl<St> {
@@ -58,17 +56,9 @@ impl<St> HandleEvent<St> for ButtonControl<St> {
         }
     }
 }
-
-#[derive(Debug, Serialize, Deserialize)]
-pub struct ButtonClick {}
-
-impl<St> Serialize for ButtonControl<St> {
-    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error> where S: Serializer {
-        let mut state = serializer.serialize_struct("ButtonControl", 1)?;
-        state.serialize_field("text", &self.text)?;
-        state.end()
-    }
-}
 impl<St> From<ButtonControl<St>> for Control<St> {
     fn from(btn: ButtonControl<St>) -> Control<St> { Control::Button(btn) }
 }
+
+#[derive(Debug, Serialize, Deserialize)]
+pub struct ButtonClick {}
