@@ -1,30 +1,11 @@
 use serde::{Serialize, Serializer};
 use serde::ser::SerializeStruct;
 
-// mod event;
-// pub use self::event::ClickEventHandler;
-// pub mod action;
-
 pub mod button;
 pub mod slider;
 
 use event::{Event, HandleEvent};
 use error;
-// pub trait Control {
-//     fn ctrl_type(&self) -> &str;
-//     fn with_action<T>(&self, effect: action::Effect<T>) -> action::ActionControl<Self, T>;
-//     fn add_to_serialized_struct<S: Serializer>(&self, state: &mut S::SerializeStruct);
-// }
-
-// pub struct Control {
-//     inner: ControlInner,
-//     action: Box<action::Action>,
-// }
-
-// pub enum ControlInner {
-//     Button(ButtonControl),
-//     Slider(SliderControl),
-// }
 
 #[derive(Debug, Clone)]
 pub enum Control<St> {

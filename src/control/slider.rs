@@ -7,7 +7,6 @@ use serde::ser::SerializeStruct;
 use event::{Event, EventHandler, HandleEvent};
 use error;
 use control::Control;
-// use control::action::{self, Effect};
 
 #[derive(Clone)]
 pub struct SliderControl<St> {
@@ -66,17 +65,7 @@ impl<St> HandleEvent<St> for SliderControl<St> {
 
 impl<St> Serialize for SliderControl<St> {
     fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error> where S: Serializer {
-        // let mut state = match self.on_change {
-        //     Some(ref effect) => {
-        //         let mut state = serializer.serialize_struct("SliderControl", 3)?;
-        //         state.serialize_field("on_change", effect)?;
-        //         state
-        //     },
-        //     None => {
-                let mut state = serializer.serialize_struct("SliderControl", 2)?;
-        //         state
-        //     }
-        // };
+        let mut state = serializer.serialize_struct("SliderControl", 2)?;
         state.serialize_field("values", &self.values)?;
         state.serialize_field("curr_value", &self.curr_value)?;
         state.end()
@@ -91,20 +80,3 @@ pub struct SliderChange {
 impl<St> From<SliderControl<St>> for Control<St> {
     fn from(slider: SliderControl<St>) -> Control<St> { Control::Slider(slider) }
 }
-
-
-// impl From<SliderControl> for Control {
-//     fn from(slider: SliderControl) -> Control { Control::Slider(slider) }
-// }
-// impl WithAction<action::Change> for SliderControl {
-//     fn set_action(&mut self, effect: Effect) {
-//         self.on_change = Some(effect);
-//     }
-//     fn with_action(self, effect: Effect) -> SliderControl {
-//         SliderControl {
-//             values: self.values,
-//             curr_value: self.curr_value,
-//             on_change: Some(effect)
-//         }
-//     }
-// }

@@ -55,22 +55,6 @@ pub struct Update<St> {
     // state communicated to client
     state: St
 }
-// impl<St> From<Chart> for Update<St> {
-//     fn from(chart: Chart) -> Update<St> {
-//         Update {
-//             chart: Some(chart),
-//             components: vec![],
-//         }
-//     }
-// }
-// impl<St> From<Option<Chart>> for Update<St> {
-//     fn from(chart: Option<Chart>) -> Update<St> {
-//         Update {
-//             chart,
-//             components: vec![],
-//         }
-//     }
-// }
 impl<St> Update<St> {
     pub fn new<C: Into<Option<Chart>>>(chart: C, state: St) -> Update<St> {
         Update {
@@ -79,12 +63,6 @@ impl<St> Update<St> {
             state
         }
     }
-    // pub fn empty() -> Update<St> {
-    //     Update {
-    //         chart: None,
-    //         components: vec![],
-    //     }
-    // }
     pub fn set_chart(&mut self, chart: Chart) {
         self.chart = Some(chart);
     }
@@ -92,9 +70,6 @@ impl<St> Update<St> {
         updated_component: C) -> error::Result<()>
     {
         self.components.push(IndexedComponent {
-            // idx: layout.get_component_index(component_name.as_ref()).ok_or(
-            //     error::RhubarbError::ComponentRegistry(component_name.as_ref().into())
-            // )?,
             idx: component_idx,
             component: updated_component.into()
         });
@@ -123,6 +98,8 @@ pub trait GenerateUpdate<St>: Send + Sync + RefUnwindSafe + Clone {
     fn update(&self, layout: &Layout<St>, prev_state: Option<St>, state: St)
         -> error::Result<Update<St>>;
 }
+
+/// Implement GenerateUpdate for functions.
 impl<St, F> GenerateUpdate<St> for F
     where F: Fn(&Layout<St>, Option<St>, St) -> error::Result<Update<St>>
         + Send + Sync + RefUnwindSafe + Clone
@@ -133,5 +110,3 @@ impl<St, F> GenerateUpdate<St> for F
         self(layout, prev_state, state)
     }
 }
-
-

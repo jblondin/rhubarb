@@ -29,18 +29,6 @@ impl<St> HandleEvent<St> for Component<St> {
         }
     }
 }
-// impl<St: ChartState> Serialize for Component<St> {
-//     fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error> where S: Serializer {
-//         match *self {
-//             Component::Control(ref ctrl) => {
-//                 ctrl.serialize(serializer)
-//             },
-//             Component::Panel(ref panel) => {
-//                 panel.serialize(serializer)
-//             }
-//         }
-//     }
-// }
 
 #[derive(Debug, Serialize, Clone)]
 pub struct Panel {
@@ -141,9 +129,6 @@ impl<St> Layout<St> {
 
     pub fn handle_event(&self, event: EventMessage, state: St) -> error::Result<St> {
         self.component_store.0[event.idx].handle_event(event.event, state)
-        // self.registry.get(&event.src_name)
-        //     .ok_or(error::RhubarbError::ComponentRegistry(event.src_name.clone()))
-        //     .and_then(|&idx| self.component_store[idx].handle_event(event.event, state))
     }
 }
 impl<St> Index<ComponentIndex> for Layout<St> {
@@ -213,42 +198,3 @@ impl<$($lifetime,)* St: ChartState> Serialize for $name<$($lifetime,)* St> {
 }
 impl_indexed_component_ser!(IndexedComponent () ());
 impl_indexed_component_ser!(IndexedComponentRef (*) ('a));
-
-// #[derive(Debug)]
-// pub struct Layout<'a> {
-//     registry: ComponentRegistry<'a>,
-//     components: Vec<&'a Component<'a>>,
-// }
-// impl<'a> Default for Layout<'a> {
-//     fn default() -> Layout<'a> {
-//         Layout {
-//             registry: ComponentRegistry::new(),
-//             components: Vec::new(),
-//         }
-//     }
-// }
-// impl<'a> Layout<'a> {
-//     pub fn new() -> Layout<'a> { Layout::default() }
-
-    // pub fn add_component<S: AsRef<str>, C: Into<Component<'a>>>(&'a mut self, name: S, component: C)
-    // {
-    //     let cmpnt = self.registry.entry(name.as_ref().into()).or_insert(component.into());
-    //     self.components.push(cmpnt);
-    // }
-
-    // pub fn handle_event<St>(&self, event: EventMessage, state: St) -> error::Result<St> {
-    //     self.registry.get(&event.src_name)
-    //         .ok_or(error::RhubarbError::ComponentRegistry(event.src_name))
-    //         .and_then(|component| component.handle_event(event.event))
-    // }
-
-    // pub fn add_component<S: AsRef<str>, C: Into<Component<'a>>>(&mut self, name: S, component: C) {
-    //     self.components.push(component.into());
-    //     self.registry.insert(name.as_ref().into(), self.components[self.components.len() - 1]);
-    // }
-
-    // pub fn add_control<S: AsRef<str>, C: Into<Control>>(&mut self, name: S, control: C) {
-    //     self.components.push(control.into());
-    //     self.registry.insert(name.as_ref().into(), self.components[self.components.len() - 1]);
-    // }
-// }

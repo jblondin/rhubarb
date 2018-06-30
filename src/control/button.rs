@@ -6,7 +6,6 @@ use serde::ser::SerializeStruct;
 
 use control::Control;
 use event::{HandleEvent, Event, EventHandler};
-// use control::action::{self, Effect};
 use error;
 
 #[derive(Clone)]
@@ -62,30 +61,10 @@ impl<St> HandleEvent<St> for ButtonControl<St> {
 
 #[derive(Debug, Serialize, Deserialize)]
 pub struct ButtonClick {}
-// impl WithAction<action::Click> for ButtonControl {
-//     fn set_action(&mut self, effect: Effect) {
-//         self.on_click = Some(effect);
-//     }
-//     fn with_action(self, effect: Effect) -> ButtonControl {
-//         ButtonControl {
-//             text: self.text,
-//             on_click: Some(effect)
-//         }
-//     }
-// }
+
 impl<St> Serialize for ButtonControl<St> {
     fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error> where S: Serializer {
-        // let mut state = match self.on_click {
-        //     Some(ref effect) => {
-        //         let mut state = serializer.serialize_struct("ButtonControl", 2)?;
-        //         state.serialize_field("on_click", effect)?;
-        //         state
-        //     },
-        //     None => {
-                let mut state = serializer.serialize_struct("ButtonControl", 1)?;
-                // state
-        //     }
-        // };
+        let mut state = serializer.serialize_struct("ButtonControl", 1)?;
         state.serialize_field("text", &self.text)?;
         state.end()
     }
@@ -93,7 +72,3 @@ impl<St> Serialize for ButtonControl<St> {
 impl<St> From<ButtonControl<St>> for Control<St> {
     fn from(btn: ButtonControl<St>) -> Control<St> { Control::Button(btn) }
 }
-
-// impl Control for ButtonControl {
-//     fn ctrl_type(&self) -> &str { "button" }
-// }

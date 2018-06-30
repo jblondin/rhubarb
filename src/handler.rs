@@ -17,7 +17,6 @@ use unicase::Ascii;
 
 use resource::{default_scripts, default_styles};
 use logger::log_handler_err;
-// use GenerateContainer;
 use update::{LayoutUpdate, GenerateUpdate, ClientMessage};
 use layout::Layout;
 use ChartState;
@@ -176,13 +175,10 @@ impl<St, Gen> Handler for GraphHandler<St, Gen>
                     Err(e) => return future::err((state, e.into_handler_error())),
                 };
                 let (prev_ui_state, ui_state): (Option<St>, St) = if body_content.len() == 0 {
-                    println!("POST input: <<empty>>");
                     (None, St::default())
                 } else {
-                    println!("POST input: {}", body_content);
                     match serde_json::from_str(&body_content) {
                         Ok(cm) => {
-                            println!("here");
                             let ClientMessage { ui_state, event_message }: ClientMessage<St> = cm;
                             let prev_state = ui_state.clone();
                             let new_state = match self.layout.handle_event(event_message,
@@ -190,7 +186,6 @@ impl<St, Gen> Handler for GraphHandler<St, Gen>
                             {
                                 Ok(new_state) => new_state,
                                 Err(e) => {
-                                    println!("error: {}", e);
                                     return future::err((state, e.into_handler_error()));
                                 }
                             };
@@ -210,10 +205,10 @@ impl<St, Gen> Handler for GraphHandler<St, Gen>
                         // add layout to (initial) update message if required, and serialize
                         if do_send_layout {
                             let update = LayoutUpdate::new(update, &self.layout);
-                            println!("{}", serde_json::to_string_pretty(&update).unwrap());
+                            // println!("{}", serde_json::to_string_pretty(&update).unwrap());
                             serde_json::to_vec(&update).map_err(|e| e.into())
                         } else {
-                            println!("{}", serde_json::to_string_pretty(&update).unwrap());
+                            // println!("{}", serde_json::to_string_pretty(&update).unwrap());
                             serde_json::to_vec(&update).map_err(|e| e.into())
                         }
                     }

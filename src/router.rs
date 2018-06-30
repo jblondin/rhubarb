@@ -25,14 +25,5 @@ pub(crate) fn router<St, Gen>(gen: Gen, layout: Arc<Layout<St>>) -> Router
                 layout));
             assoc.options().to(handler::options_origin);
         });
-        // route.request(vec![Get, Post], "/graph").to_new_handler(
-        //     handler::NewGraphHandler::new(gen.clone())
-        // );
-        // route.post("/graph").to_new_handler(handler::NewGraphHandler::new(gen.clone()));
-        // route.scope("/events", |route| {
-        //     route.get("/buttonClick/:id")
-        //         .with_path_extractor::<handler::ButtonProps>()
-        //         .to(handler::button_click);
-        // })
     })
 }
